@@ -1,22 +1,29 @@
 const path = require('path')
 const TerserPlugin = require('terser-webpack-plugin')
 
+const libraryName = 'library'
+
 module.exports = {
-  mode: "production",
+  mode: 'production',
   entry: './src/index.js',
   output: {
-    filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),
-    library: 'library', // ?!
-    libraryTarget: 'umd',
-    clean: true
+    filename: 'index.js',
+    library: libraryName,
+    globalObject: 'this',
+    library: {
+      name: libraryName,
+      type: 'umd'
+    }
   },
+
   optimization: {
     minimize: true,
     minimizer: [
       new TerserPlugin({ extractComments: false })
     ]
   },
+
   module: {
     rules: [
       {
